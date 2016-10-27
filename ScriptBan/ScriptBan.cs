@@ -47,27 +47,26 @@ namespace ScriptBan
                     "waypointcondition restriction",
                     "waypointstatement restriction"
                 };
-                
+
                 if (reasonVariants.Contains(reason))
                 {
                     //Autoban
                     beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, "AutoBan | ScriptRestriction | auf TS3 melden"));
 
                     //Ausgabe
+                    DateTime localDate = DateTime.Now;
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("=> Plugin:\tScriptban Ausgabe: Spieler {0} ({1}) wurde gebant", player, guid);
+                    Console.WriteLine("[{0}]: Spieler {1} ({2}) wurde gebant", localDate, player, guid);
 
                     //Logdatei - Inhalt
-                    DateTime localDate = DateTime.Now;
-                    string time = localDate.ToString("de-DE");
-
-                    string timeline = time + ": " + (string.Format("Spieler {0} ({1}) wurde für {3} {4} gebant.",player, guid, reason, reasonNumber));
+                    string time = "[" + localDate.ToString() + "]: ";
+                    string timeline = string.Format("Spieler {0} ({1}) wurde für {2} gebant.", player, guid, reason);
                     string banlog = "Testeintrag, hier wird der Banlog stehen.";
 
                     string[] lines =
                     {
-                            timeline,
-                            banlog
+                            (time+timeline),
+                            (time+banlog)
                     };
 
                     //Logdatei erstellen - pro Spieler
