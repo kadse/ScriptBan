@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{68E30F1D-66E0-444E-86E5-2B9BB9C51127}</ProjectGuid>
+    <ProjectGuid>{37ACAED6-DB97-40F2-9CBE-14F2787D7681}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScriptBan</RootNamespace>

@@ -28,12 +28,18 @@ namespace ScriptBan
 
         private static void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
         {
-            Regex regex = new Regex(@"Player #([0-9]{1,}) (.{0,}) [(]([\w]{32})[)] has been kicked by BattlEye: (.{0,}) [#](\d+)");
+            Regex regex = new Regex(@"Player #([0-9]{1,}) (.{0,}) [(]([\w]{32})[)] has been kicked by BattlEye: (.{0,}) ([#]\d+)");
             Match match = regex.Match(args.Message);
 
             if (match.Success)
             {
-                string[] reasons = {
+                string beNumber     = match.Groups[1].Value;
+                string player       = match.Groups[2].Value;
+                string guid         = match.Groups[3].Value;
+                string reason       = match.Groups[4].Value;
+                string reasonNumber = match.Groups[5].Value;
+
+                string[] reasonVariants = {
                     "mpeventhandler restriction",
                     "publicVariable restriction",
                     "publicVariable value restriction",
@@ -42,14 +48,30 @@ namespace ScriptBan
                     "waypointstatement restriction"
                 };
                 
-                if (reasons.Contains(match.Groups[4].Value))
+                if (reasonVariants.Contains(reason))
                 {
                     //Autoban
-                    beclient.SendCommand(string.Format("addban {0} {1} {2}", match.Groups[3].Value, 0, "AutoBan | ScriptRestriction | auf TS3 melden"));
+                    beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, "AutoBan | ScriptRestriction | auf TS3 melden"));
 
                     //Ausgabe
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("=> Plugin:\tScriptban Ausgabe: Spieler {0} ({1}) wurde gebant", match.Groups[2].Value, match.Groups[3].Value);
+                    Console.WriteLine("=> Plugin:\tScriptban Ausgabe: Spieler {0} ({1}) wurde gebant", player, guid);
+
+                    //Logdatei - Inhalt
+                    DateTime localDate = DateTime.Now;
+                    string time = localDate.ToString("de-DE");
+
+                    string timeline = time + ": " + (string.Format("Spieler {0} ({1}) wurde für {3} {4} gebant.",player, guid, reason, reasonNumber));
+                    string banlog = "Testeintrag, hier wird der Banlog stehen.";
+
+                    string[] lines =
+                    {
+                            timeline,
+                            banlog
+                    };
+
+                    //Logdatei erstellen - pro Spieler
+                    System.IO.File.WriteAllLines(@"C:\GameServer\HackerLogs\" + player + "_" + guid + ".txt", lines);
                 }
             }
         }
