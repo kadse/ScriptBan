@@ -60,7 +60,7 @@ namespace ScriptBan
 
                     //Logdatei - Inhalt
                     string time = "[" + localDate.ToString() + "]: ";
-                    string timeline = string.Format("Spieler {0} ({1}) wurde für {2} gebant.", player, guid, reason);
+                    string timeline = string.Format("Spieler {0} ({1}) wurde für {2} {3} gebant.", player, guid, reason, reasonNumber);
                     string banlog = "Testeintrag, hier wird der Banlog stehen.";
 
                     string[] lines =
