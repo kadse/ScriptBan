@@ -193,24 +193,37 @@ namespace ScriptBan
         //### BattlEye Message Handler
         private static void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
         {
-            Regex regex = new Regex(@"Player #([0-9]{1,}) (.{0,}) [(]([\w]{32})[)] has been kicked by BattlEye: (.{0,}) ([#]\d+)");
+            Regex regex = new Regex("(.{0,}) Log: #([0-9]{1,}) (.{0,}) [(]([\\w]{32})[)] - ([#]\\d+) ([\"].{0,})");
             Match match = regex.Match(args.Message);
 
             if (match.Success)
             {
-                string beNumber     = match.Groups[1].Value;
-                string player       = match.Groups[2].Value;
-                string guid         = match.Groups[3].Value;
-                string reason       = match.Groups[4].Value;
+                string reason       = match.Groups[1].Value.ToLower();
+                string beNumber     = match.Groups[2].Value;
+                string player       = match.Groups[3].Value;
+                string guid         = match.Groups[4].Value;
                 string reasonNumber = match.Groups[5].Value;
+                string log          = match.Groups[5].Value;
 
                 string[] reasonVariants = {
-                    "mpeventhandler restriction",
-                    "publicVariable restriction",
-                    "publicVariable value restriction",
-                    "remoteExec restriction",
-                    "waypointcondition restriction",
-                    "waypointstatement restriction"
+                    "addbackpackcargo",
+                    "addmagazinecargo",
+                    "attachto",
+                    "addweaponcargo",
+                    "createvehicle",
+                    "deletevehicle",
+                    "mpeventhandler",
+                    "publicvariable",
+                    "publicvariableval",
+                    "remoteexec",
+                    "script",
+                    "selectplayer",
+                    "setdamage",
+                    "setvariable",
+                    "setvariableval",
+                    "teamswitch",
+                    "waypointcondition",
+                    "waypointstatement"
                 };
 
                 if (reasonVariants.Contains(reason))
@@ -221,12 +234,12 @@ namespace ScriptBan
                     //Ausgabe
                     DateTime localDate = DateTime.Now;
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("[{0}]: Spieler {1} ({2}) wurde gebant", localDate, player, guid);
+                    Console.WriteLine("[{0}]: Spieler {1} ({2}) wurde gebannt", localDate, player, guid);
 
                     //Logdatei - Inhalt
                     string time = "[" + localDate.ToString() + "]: ";
-                    string timeline = string.Format("Spieler {0} ({1}) wurde für {2} {3} gebant.", player, guid, reason, reasonNumber);
-                    string banlog = "Testeintrag, hier wird der Banlog stehen.";
+                    string timeline = string.Format("Spieler {0} ({1}) wurde für {2} {3} gebannt.", player, guid, reason, reasonNumber);
+                    string banlog = string.Format("{0}", log);
 
                     string[] lines =
                     {
