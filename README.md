@@ -3,8 +3,14 @@
 
 [![N|Solid](https://www.regnum4games.de/upload/r4g_logo.png)](https://www.regnum4games.de)
 
+
 ### Erklärung
 > Bekannterweise kickt der BattlEye Server Spieler vom Server, wenn Sie zum Beispiel eine Script Restriction oder RemoteExecution Restriction hervorrufen. Doch es gibt auch andere Restriction, beispielweise createVehicle Restriction, für die der Spieler nicht einmal gekickt wird, sondern nur Logs angelegt werden. Dieses Plugin bannt den "Hacker"/Verursacher sofort permanent, um weiteren Schaden zu verhindern.
+
+
+
+### Download
+[*** zum Download ***](https://github.com/kadse/ScriptBan/releases)
 
 
 ### Features
