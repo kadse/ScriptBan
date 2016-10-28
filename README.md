@@ -36,6 +36,61 @@ Sonst hier den Ordner-Pfad zum gewünschten Log-Ordner eintragen.
 filepath = C:\A3Master\Logs
 ```
 
+***dblogging***
+- *true:* Datenbank Logging aktiviert
+- *false:* Datenbank Logging deaktiviert
+```sh
+dblogging = false
+dblogging = true
+```
+
+***dbserver***
+
+Falls *dblogging* deaktiviert wurde, kann die Zeile unverändert bleiben.
+Sonst hier die IP vom Datenbankserver eintragen.
+```sh
+dbserver = 127.0.0.1
+```
+
+***dbname***
+
+Falls *dblogging* deaktiviert wurde, kann die Zeile unverändert bleiben.
+Sonst hier den Datenbanknamen eintragen.
+```sh
+dbname = dbname
+```
+
+***dbuser***
+
+Falls *dblogging* deaktiviert wurde, kann die Zeile unverändert bleiben.
+Sonst hier den Datenbank-Nutzer eintragen.
+```sh
+dbuser = dbuser
+```
+
+***dbpassword***
+
+Falls *dblogging* deaktiviert wurde, kann die Zeile unverändert bleiben.
+Sonst hier das Password für den Datenbank-Nutzer eintragen.
+```sh
+dbpassword = pw
+```
+
+***tablename***
+
+Falls *dblogging* deaktiviert wurde, kann die Zeile unverändert bleiben.
+Sonst kann hier ein eigener Name für die Tabelle in der Datenbank angegeben werden.
+```sh
+tablename = banlogs
+```
+
+***banreason***
+
+Hier kann ein eigener Bangrund angegeben werden, der in der `bans.txt` vom BattlEye Server eingetragen wird.
+```sh
+banreason = AutoBan | perm
+```
+
 
 ### Lizenz
 
@@ -50,11 +105,8 @@ Wünscht Ihr Euch gerne noch die ein oder andere kleine Änderung bzw. Verbesser
 
 
 **Homepage:** [www.regnum4games.de](https://www.regnum4games.de) 
-
 **Forum:** [www.regnum4games.de/forum/](https://www.regnum4games.de/forum/)
-
 **TeamSpeak³:** [ts.regnum4games.de](http://ts.regnum4games.de)
-
 **E-Mail:** [cris@regnum4games.de](mailto:cris@regnum4games.de)
 
 [![paypal](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=regnum4games%40web%2ede&lc=DE&item_name=Regnum4Games-ScriptBan-Plugin-Spende&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
