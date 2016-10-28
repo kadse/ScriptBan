@@ -15,7 +15,7 @@ namespace ScriptBan
         internal static BattlEyeClient beclient;
 
         //Config Array & DB Connection String
-        internal static string[] config = new string[7];
+        internal static string[] config = new string[9];
         internal static string[] configLines = null;
         internal static string ConnStr = "";
 
@@ -35,7 +35,7 @@ namespace ScriptBan
             //Config auslesen
             configLines = File.ReadAllLines("plugins/config/scriptban.cfg");
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 9; i++)
             {
                 string[] typeArray = configLines[i].Split('=');
                 switch (typeArray[0].ToLower().Trim())
@@ -60,6 +60,12 @@ namespace ScriptBan
                         break;
                     case "dbpassword":
                         config[6] = typeArray[1].Trim();
+                        break;
+                    case "tablename":
+                        config[7] = typeArray[1].Trim();
+                        break;
+                    case "banreason":
+                        config[8] = typeArray[1].Trim();
                         break;
                     default:
                         config[i] = "Error";
@@ -89,12 +95,12 @@ namespace ScriptBan
                 return false;
             }
 
-            //Database Connection String
-           ConnStr = "server=" + config[3] + ";database=" + config[4] + ";uid=" + config[5] + ";password=" + config[6];
-
             //Database Connection Check
             if (config[2] == "true")
             {
+                //Database Connection String
+                ConnStr = "server=" + config[3] + ";database=" + config[4] + ";uid=" + config[5] + ";password=" + config[6];
+
                 if (CheckDatabaseConnection(ConnStr))
                 {
                     //Table Check & Create Table
@@ -149,14 +155,14 @@ namespace ScriptBan
             return isConn;
         }
 
-        //### Check Function ob Spalte banlogs existent ist
+        //### Check Function ob Datenbanktabelle existent ist
         private static bool checkTableExists(string ConStrg)
         {
             MySqlConnection tableCheck_conn = new MySqlConnection(ConStrg);
             tableCheck_conn.Open();
 
             MySqlCommand tableCheck = tableCheck_conn.CreateCommand();
-            tableCheck.CommandText = "SELECT* FROM information_schema.tables WHERE table_schema = '" + config[4] + "' AND table_name = 'banlogs' LIMIT 1";
+            tableCheck.CommandText = "SELECT* FROM information_schema.tables WHERE table_schema = '" + config[4] + "' AND table_name = '" + config[7] + "' LIMIT 1";
             MySqlDataReader reader = tableCheck.ExecuteReader();
             string row = "";
             while (reader.Read())
@@ -170,7 +176,7 @@ namespace ScriptBan
             return true;
         }
 
-        //### Create Table 'banlogs' Function 
+        //### Create Table Function
         private static void createTable (string ConStrg)
         {
             MySqlConnection createTable_conn = new MySqlConnection(ConStrg);
@@ -183,7 +189,7 @@ namespace ScriptBan
                                         `logs` text NOT NULL,
                                         `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         PRIMARY KEY (`id`))
-                                        AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;", "banlogs");
+                                        AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;", config[7]);
             MySqlCommand createTable = new MySqlCommand(query, createTable_conn);
             createTable.ExecuteNonQuery();
 
@@ -203,7 +209,7 @@ namespace ScriptBan
                 string player       = match.Groups[3].Value;
                 string guid         = match.Groups[4].Value;
                 string reasonNumber = match.Groups[5].Value;
-                string log          = match.Groups[5].Value;
+                string log          = match.Groups[6].Value;
 
                 string[] reasonVariants = {
                     "addbackpackcargo",
@@ -229,7 +235,8 @@ namespace ScriptBan
                 if (reasonVariants.Contains(reason))
                 {
                     //Autoban
-                    beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, "AutoBan | ScriptRestriction | auf TS3 melden"));
+                    beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, config[8]));
+                    beclient.SendCommand("loadbans");
 
                     //Ausgabe
                     DateTime localDate = DateTime.Now;
@@ -268,8 +275,8 @@ namespace ScriptBan
                         MySqlConnection insertConn = new MySqlConnection(ConnStr);
                         insertConn.Open();
 
-                        string query = string.Format(@"INSERT INTO `banlogs` (`player`, `guid`, `logs`) VALUES
-                                                    ('{0}', '{1}', '{2}')", player, guid, logContent);
+                        string query = string.Format(@"INSERT INTO `{0}` (`player`, `guid`, `logs`) VALUES
+                                                    ('{1}', '{2}', '{3}')", config[7], player, guid, logContent);
 
                         MySqlCommand insertQuery = new MySqlCommand(query, insertConn);
                         insertQuery.ExecuteNonQuery();

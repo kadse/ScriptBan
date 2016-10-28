@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("ScriptBan Plugin")]
-[assembly: AssemblyDescription("Plugin für automatisches Hinzufügen von Bans für ScriptRestrictions - KEKCON")]
+[assembly: AssemblyDescription("Plugin für automatisches Hinzufügen von Bans für BE Restrictions - KEKCON")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cris - Regnum4Games")]
 [assembly: AssemblyProduct("ScriptBan Plugin for KEKCON")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.1.0")]
-[assembly: AssemblyFileVersion("1.1.1.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
