@@ -257,8 +257,26 @@ namespace ScriptBan
                     //Logdatei erstellen - pro Spieler
                     if (config[0] == "true")
                     {
-                        string path = config[1] + player + "_" + guid;
-                        System.IO.File.WriteAllLines(@""+path+".txt", lines);
+                        string path = string.Format(@"{0}{1}_{2}.txt", config[1], player, guid);
+                        if (!File.Exists(path))
+                        {
+                            using (StreamWriter sw = File.CreateText(path))
+                            {
+                                foreach (var line in lines)
+                                {
+                                    sw.WriteLine(line);
+                                }
+                            }
+                        } else
+                        {
+                            using (StreamWriter sw = File.AppendText(path))
+                            {
+                                foreach (var line in lines)
+                                {
+                                    sw.WriteLine(line);
+                                }
+                            }
+                        }
                     }
                
                     //Datenbank-Log
