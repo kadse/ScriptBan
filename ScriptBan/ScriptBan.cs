@@ -14,9 +14,10 @@ namespace ScriptBan
     { 
         internal static BattlEyeClient beclient;
 
-        //Config Array 
+        //Config Array & DB Connection String
         internal static string[] config = new string[7];
         internal static string[] configLines = null;
+        internal static string ConnStr = "";
 
         public bool Init(BattlEyeClient client)
         {
@@ -89,7 +90,7 @@ namespace ScriptBan
             }
 
             //Database Connection String
-            string ConnStr = "server=" + config[3] + ";database=" + config[4] + ";uid=" + config[5] + ";password=" + config[6];
+           ConnStr = "server=" + config[3] + ";database=" + config[4] + ";uid=" + config[5] + ";password=" + config[6];
 
             //Database Connection Check
             if (config[2] == "true")
@@ -179,7 +180,8 @@ namespace ScriptBan
                                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                                         `player` varchar(50) NOT NULL DEFAULT '',
                                         `guid` varchar(50) NOT NULL DEFAULT '',
-                                        `logs` text NOT NULL,                                        
+                                        `logs` text NOT NULL,
+                                        `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         PRIMARY KEY (`id`))
                                         AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;", "banlogs");
             MySqlCommand createTable = new MySqlCommand(query, createTable_conn);
@@ -242,7 +244,23 @@ namespace ScriptBan
                     //Datenbank-Log
                     if (config[2] == "true")
                     {
-                        //Datenbankabfragen
+                        string logContent = "";
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            logContent += lines[i];
+                            if (i > 0) { logContent += "\r"; };
+                        }
+
+                        //Datenbankabfrage
+                        MySqlConnection insertConn = new MySqlConnection(ConnStr);
+                        insertConn.Open();
+
+                        string query = string.Format(@"INSERT INTO `banlogs` (`player`, `guid`, `logs`) VALUES
+                                                    ('{0}', '{1}', '{2}')", player, guid, logContent);
+
+                        MySqlCommand insertQuery = new MySqlCommand(query, insertConn);
+                        insertQuery.ExecuteNonQuery();
+                        insertConn.Close();
                     }
                 }
             }
