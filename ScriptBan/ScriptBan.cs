@@ -164,12 +164,17 @@ namespace ScriptBan
             MySqlCommand tableCheck = tableCheck_conn.CreateCommand();
             tableCheck.CommandText = "SELECT* FROM information_schema.tables WHERE table_schema = '" + config[4] + "' AND table_name = '" + config[7] + "' LIMIT 1";
             MySqlDataReader reader = tableCheck.ExecuteReader();
+
             string row = "";
             while (reader.Read())
             {
                 row = reader.GetValue(0).ToString();
             }
-            if (row == String.Empty) { return false; };
+
+            if (row == String.Empty) {
+                tableCheck_conn.Close();
+                return false;
+            };
 
             tableCheck_conn.Close();
 
