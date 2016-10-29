@@ -5,7 +5,7 @@
 
 
 ### Erklärung
-> Bekannterweise kickt der BattlEye Server Spieler vom Server, wenn Sie zum Beispiel eine Script Restriction oder RemoteExecution Restriction hervorrufen. Doch es gibt auch andere Restriction, beispielweise createVehicle Restriction, für die der Spieler nicht einmal gekickt wird, sondern nur Logs angelegt werden. Dieses Plugin bannt den "Hacker"/Verursacher sofort permanent, um weiteren Schaden zu verhindern.
+> Bekannterweise kickt der BattlEye Server Spieler vom Server, wenn Sie zum Beispiel eine Script Restriction oder RemoteExecution Restriction hervorrufen. Dieses Plugin bannt den "Hacker"/Verursacher sofort permanent, um weiteren Schaden zu verhindern.
 
 
 
@@ -31,6 +31,7 @@ Beispiel config-Datei: `plugins/config/scriptban.cfg`
 - *false:* File Logging deaktiviert
 ```sh
 filelogging = false
+oder
 filelogging = true
 ```
 
@@ -47,6 +48,7 @@ filepath = C:\A3Master\Logs
 - *false:* Datenbank Logging deaktiviert
 ```sh
 dblogging = false
+oder
 dblogging = true
 ```
 
@@ -98,12 +100,15 @@ banreason = AutoBan | perm
 ```
 
 
+
 ### Lizenz
 
-Die Nutzung dieses Plugins ist komplett kostenlos. Mit der Nutzung dieses Plugins erklärt sich der Nutzer automatisch einverstanden, dieses Plugin und den Quellcode nicht als eigenes Werk anzupreisen. Sollte dies missachtet werden, können weitere rechtliche Schritte eingeleitet werden. Genauso ist die kommerzielle Weiterverbreitung des Plugins strengstens untersagt. Dieses Plugin wurde für die ArmA 3 Community und dessen Game Server entwickelt und kostenfrei zur Verfügung gestellt, um Hacker vom Spielgeschehen schnell und effizient ausschließen zu können.
+Die Nutzung dieses Plugins ist komplett kostenlos. Mit der Nutzung dieses Plugins erklärt sich der Nutzer automatisch einverstanden, dieses Plugin und den Quellcode nicht als eigenes Werk anzupreisen. Sollte dies missachtet werden, können weitere rechtliche Schritte eingeleitet werden. Genauso ist die kommerzielle Weiterverbreitung des Plugins strengstens untersagt. Dieses Plugin wurde für die ArmA 3 Community und deren Game Server entwickelt und kostenfrei zur Verfügung gestellt, um Hacker vom Spielgeschehen schnell und effizient ausschließen zu können.
+
 
 ### Spenden
 Das Plugin stammt aus dem "Hause" Regnum4Games,wo ebenfalls ein Arma 3 Server betrieben wird. Sollte Euch dieses Plugin gefallen und Ihr wollt unseren Server ein wenig unterstützen, kommt einfach mal vorbei. Außerdem freuen wir uns über jede kleine Spende, die zum Erhalt &  Weiterentwicklung unseres Servers beiträgt, so beispielweise auch zur Entwicklung weiterer Plugins oder Weiterentwicklung diesen Plugins.
+
 
 ### Verbesserungsvorschläge
 Wünscht Ihr Euch gerne noch die ein oder andere kleine Änderung bzw. Verbesserung an diesem Plugin, könnt Ihr mich einfach über unsere Homepage, im TeamSpeak³ oder per E-Mail kontaktieren.
