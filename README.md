@@ -99,6 +99,13 @@ Hier kann ein eigener Bangrund angegeben werden, der in der `bans.txt` vom Battl
 banreason = AutoBan | perm
 ```
 
+***banrestrictions***
+
+Hier können alle BattlEye Restrictions eingetragen werden, für die das Plugin den Spieler bannen soll.
+Diese werden hintereinander, durch Kommas getrennt, angegeben.
+```sh
+banrestrictions = attachto,createvehicle,deletevehicle,mpeventhandler,publicvariable,remoteexec,script,setdamage,setvariable
+```
 
 
 ### Lizenz
