@@ -117,7 +117,7 @@ namespace ScriptBan
             client.BattlEyeMessageReceived += BattlEyeMessageReceived;
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("=> Plugin geladen:\tScriptban");
+            Console.WriteLine("=> Plugin geladen:\tScriptBan");
             Console.ForegroundColor = ConsoleColor.Gray;
 
             return true;
