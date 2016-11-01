@@ -15,79 +15,43 @@ namespace ScriptBan
         internal static BattlEyeClient beclient;
 
         //Config Array & DB Connection String
-        internal static string[] config = new string[9];
-        internal static string[] configLines = null;
-        internal static string ConnStr = "";
+        internal static string[] CONFIG = null;
+        internal static string[] CONFIGCONTENT = null;
+        internal static byte CONFILINECOUNT = 10;
+        internal static string CONNECTIONSTRING = "";
 
         public bool Init(BattlEyeClient client)
         {
             beclient = client;
 
-            //Configcheck
-            if (!File.Exists("plugins/config/scriptban.cfg"))
+            //Config Check
+            byte cfgCheckNr = configCheck("plugins/config/scriptban.cfg");
+            if (cfgCheckNr > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("=> Plugin Fehler:\tScriptBan\tscriptban.cfg nicht gefunden");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                return false;
-            }
-
-            //Config auslesen
-            configLines = File.ReadAllLines("plugins/config/scriptban.cfg");
-
-            for (int i = 0; i < 9; i++)
-            {
-                string[] typeArray = configLines[i].Split('=');
-                switch (typeArray[0].ToLower().Trim())
+                string errorMsg = "";
+                switch (cfgCheckNr)
                 {
-                    case "filelogging":
-                        config[0] = typeArray[1].ToLower().Trim();
+                    case 1:
+                        errorMsg = "Configdatei konnte nicht gefunden werden";
                         break;
-                    case "filepath":
-                        config[1] = typeArray[1].Trim();
+                    case 2:
+                        errorMsg = "Config fehlerhaft - Nicht alle Parameter vorhanden";
                         break;
-                    case "dblogging":
-                        config[2] = typeArray[1].ToLower().Trim();
-                        break;
-                    case "dbserver":
-                        config[3] = typeArray[1].Trim();
-                        break;
-                    case "dbname":
-                        config[4] = typeArray[1].Trim();
-                        break;
-                    case "dbuser":
-                        config[5] = typeArray[1].Trim();
-                        break;
-                    case "dbpassword":
-                        config[6] = typeArray[1].Trim();
-                        break;
-                    case "tablename":
-                        config[7] = typeArray[1].Trim();
-                        break;
-                    case "banreason":
-                        config[8] = typeArray[1].Trim();
+                    case 3:
+                        errorMsg = "Syntaxfehler in der Configdatei";
                         break;
                     default:
-                        config[i] = "Error";
+                        errorMsg = "Unbekannter Fehler";
                         break;
                 }
-            }
-
-            //Config Check
-            foreach (var type in config)
-            {
-                if (type == "Error") { config = null; };
-            }
-            if (config == null)
-            {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("=> Plugin Fehler:\tScriptBan\tSyntax Fehler in Configdatei 'scriptban.cfg'");
+                Console.WriteLine(string.Format("=> Plugin Fehler:\tScriptBan\t{0}",errorMsg));
                 Console.ForegroundColor = ConsoleColor.Gray;
                 return false;
             }
 
             //Filepath Check
-            if (config[0] == "true" && !Directory.Exists(config[1]))
+            if (CONFIG[0] == "true" && !Directory.Exists(CONFIG[1]))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("=> Plugin Fehler:\tScriptBan\tDateipfad für File-Logs existiert nicht");
@@ -96,15 +60,15 @@ namespace ScriptBan
             }
 
             //Database Connection Check
-            if (config[2] == "true")
+            if (CONFIG[2] == "true")
             {
                 //Database Connection String
-                ConnStr = "server=" + config[3] + ";database=" + config[4] + ";uid=" + config[5] + ";password=" + config[6];
+                CONNECTIONSTRING = "server=" + CONFIG[3] + ";database=" + CONFIG[4] + ";uid=" + CONFIG[5] + ";password=" + CONFIG[6];
 
-                if (CheckDatabaseConnection(ConnStr))
+                if (checkDatabaseConnection(CONNECTIONSTRING))
                 {
                     //Table Check & Create Table
-                    if (!checkTableExists(ConnStr)) { createTable(ConnStr); }
+                    if (!checkTableExists(CONNECTIONSTRING)) { createTable(CONNECTIONSTRING); }
                 } else 
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -123,8 +87,73 @@ namespace ScriptBan
             return true;
         }
 
+
+        //### Config Check
+        private byte configCheck(string configPath)
+        {
+            //File Exists
+            if (!File.Exists(configPath)) { return 1; }
+
+            //Config auslesen
+            CONFIGCONTENT = File.ReadAllLines(configPath);
+
+            //Config Zeilencheck
+            if (CONFIGCONTENT.Length < 9) { return 2; }
+
+            CONFIG = new string[CONFIGCONTENT.Length];
+
+            for (int i = 0; i < CONFIGCONTENT.Length; i++)
+            {
+                string[] typeArray = CONFIGCONTENT[i].Split('=');
+                switch (typeArray[0].ToLower().Trim())
+                {
+                    case "filelogging":
+                        CONFIG[0] = typeArray[1].ToLower().Trim();
+                        break;
+                    case "filepath":
+                        CONFIG[1] = typeArray[1].Trim();
+                        break;
+                    case "dblogging":
+                        CONFIG[2] = typeArray[1].ToLower().Trim();
+                        break;
+                    case "dbserver":
+                        CONFIG[3] = typeArray[1].Trim();
+                        break;
+                    case "dbname":
+                        CONFIG[4] = typeArray[1].Trim();
+                        break;
+                    case "dbuser":
+                        CONFIG[5] = typeArray[1].Trim();
+                        break;
+                    case "dbpassword":
+                        CONFIG[6] = typeArray[1].Trim();
+                        break;
+                    case "tablename":
+                        CONFIG[7] = typeArray[1].Trim();
+                        break;
+                    case "banreason":
+                        CONFIG[8] = typeArray[1].Trim();
+                        break;
+                    case "banrestrictions":
+                        CONFIG[9] = typeArray[1].Trim();
+                        break;
+                    default:
+                        CONFIG[i] = "Error";
+                        break;
+                }
+            }
+
+            //Config Syntax-Check
+            foreach (var type in CONFIG)
+            {
+                if (type == "Error") { return 3; };
+            }
+
+            return 0;
+        }
+
         //### Database Connection Check Function
-        private bool CheckDatabaseConnection(string ConStrg)
+        private bool checkDatabaseConnection(string ConStrg)
         {
             bool isConn = false;
             MySqlConnection check_conn = null;
@@ -162,7 +191,7 @@ namespace ScriptBan
             tableCheck_conn.Open();
 
             MySqlCommand tableCheck = tableCheck_conn.CreateCommand();
-            tableCheck.CommandText = "SELECT* FROM information_schema.tables WHERE table_schema = '" + config[4] + "' AND table_name = '" + config[7] + "' LIMIT 1";
+            tableCheck.CommandText = "SELECT* FROM information_schema.tables WHERE table_schema = '" + CONFIG[4] + "' AND table_name = '" + CONFIG[7] + "' LIMIT 1";
             MySqlDataReader reader = tableCheck.ExecuteReader();
 
             string row = "";
@@ -194,7 +223,7 @@ namespace ScriptBan
                                         `logs` text NOT NULL,
                                         `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         PRIMARY KEY (`id`))
-                                        AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;", config[7]);
+                                        AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;", CONFIG[7]);
             MySqlCommand createTable = new MySqlCommand(query, createTable_conn);
             createTable.ExecuteNonQuery();
 
@@ -216,31 +245,12 @@ namespace ScriptBan
                 string reasonNumber = match.Groups[5].Value;
                 string log          = match.Groups[6].Value;
 
-                string[] reasonVariants = {
-                    "addbackpackcargo",
-                    "addmagazinecargo",
-                    "attachto",
-                    "addweaponcargo",
-                    "createvehicle",
-                    "deletevehicle",
-                    "mpeventhandler",
-                    "publicvariable",
-                    "publicvariableval",
-                    "remoteexec",
-                    "script",
-                    "selectplayer",
-                    "setdamage",
-                    "setvariable",
-                    "setvariableval",
-                    "teamswitch",
-                    "waypointcondition",
-                    "waypointstatement"
-                };
+                string[] reasonVariants = CONFIG[9].Replace(" ", "").Split(',');
 
                 if (reasonVariants.Contains(reason))
                 {
                     //Autoban
-                    beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, config[8]));
+                    beclient.SendCommand(string.Format("addban {0} {1} {2}", guid, 0, CONFIG[8]));
                     beclient.SendCommand("loadbans");
 
                     //Ausgabe
@@ -260,9 +270,9 @@ namespace ScriptBan
                     };
 
                     //Logdatei erstellen - pro Spieler
-                    if (config[0] == "true")
+                    if (CONFIG[0] == "true")
                     {
-                        string path = string.Format(@"{0}{1}_{2}.txt", config[1], player, guid);
+                        string path = string.Format(@"{0}{1}_{2}.txt", CONFIG[1], player, guid);
                         if (!File.Exists(path))
                         {
                             using (StreamWriter sw = File.CreateText(path))
@@ -285,7 +295,7 @@ namespace ScriptBan
                     }
                
                     //Datenbank-Log
-                    if (config[2] == "true")
+                    if (CONFIG[2] == "true")
                     {
                         string logContent = "";
                         for (int i = 0; i < lines.Length; i++)
@@ -295,11 +305,11 @@ namespace ScriptBan
                         }
 
                         //Datenbankabfrage
-                        MySqlConnection insertConn = new MySqlConnection(ConnStr);
+                        MySqlConnection insertConn = new MySqlConnection(CONNECTIONSTRING);
                         insertConn.Open();
 
                         string query = string.Format(@"INSERT INTO `{0}` (`player`, `guid`, `logs`) VALUES
-                                                    ('{1}', '{2}', '{3}')", config[7], player, guid, logContent);
+                                                    ('{1}', '{2}', '{3}')", CONFIG[7], player, guid, logContent);
 
                         MySqlCommand insertQuery = new MySqlCommand(query, insertConn);
                         insertQuery.ExecuteNonQuery();
