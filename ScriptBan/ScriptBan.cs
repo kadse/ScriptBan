@@ -273,23 +273,12 @@ namespace ScriptBan
                     if (CONFIG[0] == "true")
                     {
                         string path = string.Format(@"{0}{1}_{2}.txt", CONFIG[1], player, guid);
-                        if (!File.Exists(path))
+
+                        using (StreamWriter sw = File.AppendText(path))
                         {
-                            using (StreamWriter sw = File.CreateText(path))
+                            foreach (var line in lines)
                             {
-                                foreach (var line in lines)
-                                {
-                                    sw.WriteLine(line);
-                                }
-                            }
-                        } else
-                        {
-                            using (StreamWriter sw = File.AppendText(path))
-                            {
-                                foreach (var line in lines)
-                                {
-                                    sw.WriteLine(line);
-                                }
+                                sw.WriteLine(line);
                             }
                         }
                     }
