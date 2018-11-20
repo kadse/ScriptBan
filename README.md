@@ -111,7 +111,7 @@ Die Nutzung dieses Plugins ist komplett kostenlos. Mit der Nutzung dieses Plugin
 
 
 ### Spenden
-Das Plugin stammt aus dem "Hause" Regnum4Games,wo ebenfalls ein Arma 3 Server betrieben wird. Sollte Euch dieses Plugin gefallen und Ihr wollt unseren Server ein wenig unterstützen, kommt einfach mal vorbei. Außerdem freuen wir uns über jede kleine Spende, die zum Erhalt &  Weiterentwicklung unseres Servers beiträgt, so beispielweise auch zur Entwicklung weiterer Plugins oder Weiterentwicklung diesen Plugins.
+Das Plugin stammt aus dem "Hause" App-Raisal. Sollte Euch dieses Plugin gefallen und Ihr wollt mich ein wenig unterstützen, kommt einfach mal vorbei. Außerdem freue ich mich über jede kleine Spende.
 
 
 ### Verbesserungsvorschläge
@@ -119,7 +119,9 @@ Wünscht Ihr Euch gerne noch die ein oder andere kleine Änderung bzw. Verbesser
 
 
 
-**TeamSpeak³:** [ts.app-raisal.de](https://ts.app-raisal.de/)
+**TeamSpeak³:** [ts.app-raisal.de](https://ts.app-raisal.de)
+
+**Discord:** [Discord - App-Raisal](https://discord.gg/n36ycjh)
 
 **E-Mail:** [cris@app-raisal.de](mailto:cris@app-raisal.de)
 
