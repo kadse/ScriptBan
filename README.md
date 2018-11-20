@@ -1,8 +1,5 @@
 # ScriptBan Plugin for KEKCON Tool (BattlEye Client)
-**2016 (c) by Cris - Regnum4Games**
-
-[![N|Solid](https://www.regnum4games.de/upload/r4g_logo.png)](https://www.regnum4games.de)
-
+**2016 (c) by Cris - App-Raisal**
 
 ### Erklärung
 > Bekannterweise kickt der BattlEye Server Spieler vom Server, wenn Sie zum Beispiel eine Script Restriction oder RemoteExecution Restriction hervorrufen. Dieses Plugin bannt den "Hacker"/Verursacher sofort permanent, um weiteren Schaden zu verhindern.
@@ -122,12 +119,8 @@ Wünscht Ihr Euch gerne noch die ein oder andere kleine Änderung bzw. Verbesser
 
 
 
-**Homepage:** [www.regnum4games.de](https://www.regnum4games.de) 
+**TeamSpeak³:** [ts.app-raisal.de](https://ts.app-raisal.de/)
 
-**Forum:** [www.regnum4games.de/forum/](https://www.regnum4games.de/forum/)
+**E-Mail:** [cris@app-raisal.de](mailto:cris@app-raisal.de)
 
-**TeamSpeak³:** [ts.regnum4games.de](http://ts.regnum4games.de)
-
-**E-Mail:** [cris@regnum4games.de](mailto:cris@regnum4games.de)
-
-[![paypal](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=regnum4games%40web%2ede&lc=DE&item_name=Regnum4Games-ScriptBan-Plugin-Spende&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
+**Spenden:** paypal.me/kadse1301
